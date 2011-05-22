@@ -6,10 +6,17 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		4C118A88138956670062E3F5 /* BAMSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BAMSettings.h; sourceTree = "<group>"; };
+		4C118A89138956670062E3F5 /* BAMSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BAMSettings.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		4C118A7F1389561E0062E3F5 = {
 			isa = PBXGroup;
 			children = (
+				4C118A88138956670062E3F5 /* BAMSettings.h */,
+				4C118A89138956670062E3F5 /* BAMSettings.m */,
 			);
 			sourceTree = "<group>";
 		};
