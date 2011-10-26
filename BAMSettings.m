@@ -119,7 +119,7 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
 @synthesize rowTitles;
 
 - (id)initWithTitle:(NSString *)aTitle rowTitles:(NSArray *)theRowTitles selectedRow:(NSInteger)aSelectedRow forCellAtIndexPath:(NSIndexPath *)aCellIndexPath {
-    if ((self = [super init])) {
+    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
         self.cellIndexPath = aCellIndexPath;
         self.title = aTitle;
         self.rowTitles = theRowTitles;
@@ -140,8 +140,6 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
     [super viewDidLoad];
     
     self.title = title;
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 }
 
 - (void)viewDidUnload {
@@ -219,6 +217,9 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
     NSBundle *settingsBundle;
     NSMutableArray *sectionHeaders, *sectionFooters, *sections;
 }
+@property (nonatomic, copy) NSString *paneTitle, *propertyListName, *stringsTable;
+@property (nonatomic, retain) NSBundle *settingsBundle;
+
 - (id)initAsChildPaneWithTitle:(NSString *)aTitle propertyListNamed:(NSString *)aPropertyListName;
 - (NSString *)formattedStringForTitle:(id)titleObject format:(NSString *)format;
 - (NSArray *)formattedArrayForTitles:(id)titles format:(NSString *)format;
@@ -246,29 +247,35 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
 @implementation BAMSettings
 
 @synthesize delegate;
+@synthesize paneTitle, propertyListName, stringsTable;
+@synthesize settingsBundle;
 
 static BOOL haveSettingsBeenChanged = NO;
 static BOOL disableExitDelegateMethod = NO;
 
 - (id)initWithTitle:(NSString *)aTitle propertyListNamed:(NSString *)aPropertyListName {
-    if ((self = [super init])) {
-        paneTitle = [aTitle copy];
-        propertyListName = [[aPropertyListName stringByDeletingPathExtension] copy];
+    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
+        self.paneTitle = aTitle;
+        self.propertyListName = [aPropertyListName stringByDeletingPathExtension];
         isChildPane = NO;
     }
     return self;
 }
 
 - (id)initAsChildPaneWithTitle:(NSString *)aTitle propertyListNamed:(NSString *)aPropertyListName {
-    if ((self = [super init])) {
-        paneTitle = [aTitle copy];
-        propertyListName = [[aPropertyListName stringByDeletingPathExtension] copy];
+    if ((self = [super initWithStyle:UITableViewStyleGrouped])) {
+        self.paneTitle = aTitle;
+        self.propertyListName = [aPropertyListName stringByDeletingPathExtension];
         isChildPane = YES;
     }
     return self;
 }
 
 - (void)dealloc {
+    [paneTitle release];
+    [propertyListName release];
+    [stringsTable release];
+    [settingsBundle release];
     [sectionHeaders release];
     [sectionFooters release];
     [sections release];
@@ -285,7 +292,7 @@ static BOOL disableExitDelegateMethod = NO;
     [super viewDidLoad];
     
     NSString *settingsBundlePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"];
-    settingsBundle = [NSBundle bundleWithPath:settingsBundlePath];
+    self.settingsBundle = [NSBundle bundleWithPath:settingsBundlePath];
 
     NSString *settingsPropertyListFilename = [propertyListName stringByAppendingPathExtension:@"plist"];
     NSString *settingsPropertyListPath = [[settingsBundle bundlePath] stringByAppendingPathComponent:settingsPropertyListFilename];
@@ -293,7 +300,7 @@ static BOOL disableExitDelegateMethod = NO;
     NSDictionary *settingsPropertyList = [NSDictionary dictionaryWithContentsOfFile:settingsPropertyListPath];
     
     NSMutableArray *preferenceArray = [settingsPropertyList objectForKey:BAMSettingsPreferencesSpecifier];
-    stringsTable = [[settingsPropertyList objectForKey:BAMSettingsStringsTable] copy];
+    self.stringsTable = [settingsPropertyList objectForKey:BAMSettingsStringsTable];
    
     sectionHeaders = [[NSMutableArray alloc] init];
     sectionFooters = [[NSMutableArray alloc] init];
@@ -329,8 +336,6 @@ static BOOL disableExitDelegateMethod = NO;
     
     // Apple settings would use the app name but we used the one passed in through init methods.
     self.title = [settingsBundle localizedStringForKey:paneTitle value:paneTitle table:stringsTable];
-     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
