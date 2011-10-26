@@ -54,11 +54,6 @@
 
 @interface BAMSettingsDetail : UITableViewController <UITableViewDelegate, UITableViewDataSource> {
     id<BAMSettingsDetailDelegate> delegate;
-@private
-    NSInteger selectedRow;
-    NSIndexPath *cellIndexPath;
-    NSString *title;
-    NSArray *rowTitles;
 }
 @property (assign) id<BAMSettingsDetailDelegate> delegate;
 
@@ -83,11 +78,6 @@
 
 @interface BAMSettings : UITableViewController <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BAMSettingsDetailDelegate> {
     id<BAMSettingsDelegate> delegate;
-@private
-    BOOL isChildPane;
-    NSString *paneTitle, *propertyListName, *stringsTable;
-    NSBundle *settingsBundle;
-    NSMutableArray *sectionHeaders, *sectionFooters, *sections;
 }
 @property (assign) id<BAMSettingsDelegate> delegate;
 

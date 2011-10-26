@@ -100,22 +100,39 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
  *                                                                           *
 \*****************************************************************************/
 
+@interface BAMSettingsDetail () {
+    NSInteger selectedRow;
+    NSIndexPath *cellIndexPath;
+    NSString *title;
+    NSArray *rowTitles;
+}
+@property (nonatomic, retain) NSIndexPath *cellIndexPath;
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSArray *rowTitles;
+@end
+
 @implementation BAMSettingsDetail
 
 @synthesize delegate;
+@synthesize cellIndexPath;
+@synthesize title;
+@synthesize rowTitles;
 
 - (id)initWithTitle:(NSString *)aTitle rowTitles:(NSArray *)theRowTitles selectedRow:(NSInteger)aSelectedRow forCellAtIndexPath:(NSIndexPath *)aCellIndexPath {
     if ((self = [super init])) {
-        cellIndexPath = aCellIndexPath;
-        title = aTitle;
-        rowTitles = [theRowTitles copy];
+        self.cellIndexPath = aCellIndexPath;
+        self.title = aTitle;
+        self.rowTitles = theRowTitles;
         selectedRow = aSelectedRow;
     }
     return self;
 }
 
 - (void)dealloc {
+    [cellIndexPath release];
+    [title release];
     [rowTitles release];
+    
     [super dealloc];
 }
 
@@ -196,7 +213,12 @@ static NSString *cellReuseIdentifierSettingsDetail = @"SettingsDetailTableCellId
  *                                                                           *
 \*****************************************************************************/
 
-@interface BAMSettings (Private)
+@interface BAMSettings () {
+    BOOL isChildPane;
+    NSString *paneTitle, *propertyListName, *stringsTable;
+    NSBundle *settingsBundle;
+    NSMutableArray *sectionHeaders, *sectionFooters, *sections;
+}
 - (id)initAsChildPaneWithTitle:(NSString *)aTitle propertyListNamed:(NSString *)aPropertyListName;
 - (NSString *)formattedStringForTitle:(id)titleObject format:(NSString *)format;
 - (NSArray *)formattedArrayForTitles:(id)titles format:(NSString *)format;
