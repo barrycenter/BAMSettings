@@ -588,7 +588,7 @@ static BOOL disableExitDelegateMethod = NO;
     }
     
     textField.autocapitalizationType = [self autocapsTypeFromKey:[rowDict objectForKey:BAMSettingsAutocapsType]];
-    textField.autocorrectionType = [self autocorrectionTypeFromKey:[rowDict objectForKey:BAMSettingsAutocapsType]];
+    textField.autocorrectionType = [self autocorrectionTypeFromKey:[rowDict objectForKey:BAMSettingsAutocorrectionType]];
     textField.textAlignment = UITextAlignmentLeft; // Apple's settings app left justifies but it's unattractive.
     //textField.textAlignment = UITextAlignmentRight; // I prefer this but I'll let you decide what you want here.
     textField.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1.0];
