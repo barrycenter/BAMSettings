@@ -884,6 +884,9 @@ static BOOL disableExitDelegateMethod = NO;
     [self updateUserDefaultsForAccessoryView:textField];
     return YES;
 }
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self updateUserDefaultsForAccessoryView:textField];
+}
 
 #pragma mark - SettingsDetailViewDelegate Methods
 
