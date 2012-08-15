@@ -79,6 +79,17 @@
 #define BAMSettingsAutocapsTypeSentences @"Sentences"
 #define BAMSettingsAutocapsTypeAllChars  @"AllCharacters"
 
+#define BAMSettingsKeyBoardType  @"KeyboardType"
+#define BAMSettingsKeyBoardTypeAlphabet  @"Alphabet"
+#define BAMSettingsKeyBoardTypeNumberPad  @"NumberPad"
+#define BAMSettingsKeyBoardTypeURL  @"URL"
+#define BAMSettingsKeyBoardTypeEmailAddress  @"EmailAddress"
+#define BAMSettingsKeyBoardTypeNumbersAndPunctuation  @"NumbersAndPunctuation"
+
+#define BAMSettingsKeyBoardTypeTwitter  @"Twitter"
+
+
+
 static NSString *cellReuseIdentifierMultiValue     = @"SettingsTableCellIdentifierMultiValue";
 static NSString *cellReuseIdentifierToggleSwitch   = @"SettingsTableCellIdentifierToggleSwitch";
 static NSString *cellReuseIdentifierTextField      = @"SettingsTableCellIdentifierTextField";
@@ -586,6 +597,30 @@ static BOOL disableExitDelegateMethod = NO;
     } else { // is not a secure text field.
         textField.secureTextEntry = NO;
     }
+    
+    
+    UIKeyboardType keyBoardType = UIKeyboardTypeDefault;
+    NSString *keyBoardTypeSetting = [rowDict objectForKey:BAMSettingsKeyBoardType];
+    if(keyBoardTypeSetting) {
+        if([keyBoardTypeSetting isEqualToString:BAMSettingsKeyBoardTypeNumberPad]) {
+            keyBoardType =  UIKeyboardTypeNumberPad;
+        } else if([keyBoardTypeSetting isEqualToString:BAMSettingsKeyBoardTypeURL]) {
+            keyBoardType =  UIKeyboardTypeURL;
+        } else if([keyBoardTypeSetting isEqualToString:BAMSettingsKeyBoardTypeEmailAddress]) {
+            keyBoardType =  UIKeyboardTypeEmailAddress;
+        } else if([keyBoardTypeSetting isEqualToString:BAMSettingsKeyBoardTypeNumbersAndPunctuation]) {
+            keyBoardType =  UIKeyboardTypeNumbersAndPunctuation;
+        }
+        
+#if __IPHONE_5_0 <= __IPHONE_OS_VERSION_MAX_ALLOWED
+        if([keyBoardTypeSetting isEqualToString:BAMSettingsKeyBoardTypeTwitter]) {
+            keyBoardType = UIKeyboardTypeTwitter;
+        }
+#endif
+    }
+    
+    textField.keyboardType = keyBoardType;
+    
     
     textField.autocapitalizationType = [self autocapsTypeFromKey:[rowDict objectForKey:BAMSettingsAutocapsType]];
     textField.autocorrectionType = [self autocorrectionTypeFromKey:[rowDict objectForKey:BAMSettingsAutocapsType]];
