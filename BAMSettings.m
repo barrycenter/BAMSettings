@@ -711,6 +711,9 @@ static BOOL disableExitDelegateMethod = NO;
 
 - (void)updateUserDefaultsForAccessoryView:(id)accessoryView {
     NSIndexPath *accessoryIndexPath = [self cellIndexPathForAccessoryView:accessoryView];
+    if(!accessoryIndexPath) {
+        return;
+    }
     NSArray *section = [sections objectAtIndex:[accessoryIndexPath section]];
     NSDictionary *rowDict = (NSDictionary *)[section objectAtIndex:[accessoryIndexPath row]];
     NSString *currentKey = [rowDict objectForKey:BAMSettingsKey];
