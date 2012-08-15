@@ -513,7 +513,7 @@ static BOOL disableExitDelegateMethod = NO;
 }
 
 - (NSIndexPath *)cellIndexPathForAccessoryView:(id)accessoryView {
-    NSIndexPath *returnIndexPath = [[[NSIndexPath alloc] init] autorelease];
+    NSIndexPath *returnIndexPath = nil;
     NSArray *visibleCellPaths = [self.tableView indexPathsForVisibleRows];
     
     for (NSIndexPath *path in visibleCellPaths) {
@@ -747,7 +747,9 @@ static BOOL disableExitDelegateMethod = NO;
 }
 
 - (void)scrollToMiddle:(NSIndexPath *)indexPath {
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    if(indexPath) {
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    }
 }
 
 #pragma mark - Keyboard Notification Methods
